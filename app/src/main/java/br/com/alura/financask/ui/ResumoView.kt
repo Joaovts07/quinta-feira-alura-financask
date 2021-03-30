@@ -1,7 +1,7 @@
 package br.com.alura.financask.ui
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import br.com.alura.financask.R
 import br.com.alura.financask.extension.formataParaBrasileiro
