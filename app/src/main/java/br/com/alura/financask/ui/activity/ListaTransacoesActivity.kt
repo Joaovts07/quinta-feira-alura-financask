@@ -32,12 +32,12 @@ class ListaTransacoesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_transacoes)
 
-        configuraResumo()
+        /*configuraResumo()
         configuraLista()
-        configuraFab()
+        configuraFab()*/
     }
 
-    private fun configuraFab() {
+   /* private fun configuraFab() {
         lista_transacoes_adiciona_receita
                 .setOnClickListener {
                     chamaDialogDeAdicao(Tipo.RECEITA)
@@ -46,16 +46,16 @@ class ListaTransacoesActivity : AppCompatActivity() {
                 .setOnClickListener {
                     chamaDialogDeAdicao(Tipo.DESPESA)
                 }
-    }
+    }*/
 
-    private fun chamaDialogDeAdicao(tipo: Tipo) {
+    /*private fun chamaDialogDeAdicao(tipo: Tipo) {
         AdicionaTransacaoDialog(viewGroupDaActivity, this)
                 .chama(tipo) { transacaoCriada ->
                     adiciona(transacaoCriada)
                     lista_transacoes_adiciona_menu.close(true)
                 }
 
-    }
+    }*/
 
     private fun adiciona(transacao: Transacao) {
         dao.adiciona(transacao)
@@ -63,7 +63,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
     }
 
     private fun atualizaTransacoes() {
-        configuraLista()
+        //configuraLista()
         configuraResumo()
     }
 
@@ -72,7 +72,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
         resumoView.atualiza()
     }
 
-    private fun configuraLista() {
+    /*private fun configuraLista() {
         val listaTransacoesAdapter = ListaTransacoesAdapter(transacoes, this)
         with(lista_transacoes_listview) {
             adapter = listaTransacoesAdapter
@@ -84,7 +84,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
                 menu.add(Menu.NONE, 1, Menu.NONE, "Remover")
             }
         }
-    }
+    }*/
 
     override fun onContextItemSelected(item: MenuItem?): Boolean {
         val idDoMenu = item?.itemId
