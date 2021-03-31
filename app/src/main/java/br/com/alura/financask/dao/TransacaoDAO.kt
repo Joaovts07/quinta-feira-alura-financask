@@ -1,23 +1,16 @@
 package br.com.alura.financask.dao
 
-import br.com.alura.financask.model.Transacao
+import androidx.room.*
+import br.com.alura.financask.model.Transaction
 
-class TransacaoDAO {
+@Dao
+interface TransacaoDAO {
+    @Insert
+    suspend fun insert(transaction: Transaction): Long
 
-    val transacoes: List<Transacao> = Companion.transacoes
-    companion object {
-        private val transacoes: MutableList<Transacao> = mutableListOf()
-    }
+    @Update
+    suspend fun update(transaction: Transaction )
 
-    fun adiciona(transacao: Transacao){
-        Companion.transacoes.add(transacao)
-    }
-
-    fun altera(transacao: Transacao, posicao: Int){
-        Companion.transacoes[posicao] = transacao
-    }
-
-    fun remove(posicao: Int){
-        Companion.transacoes.removeAt(posicao)
-    }
+    @Query("SELECT * FROM `transaction`")
+    suspend fun getAll(): List<Transaction>
 }

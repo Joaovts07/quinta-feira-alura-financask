@@ -11,8 +11,8 @@ import android.widget.Toast
 import br.com.alura.financask.R
 import br.com.alura.financask.extension.converteParaCalendar
 import br.com.alura.financask.extension.formataParaBrasileiro
-import br.com.alura.financask.model.Tipo
-import br.com.alura.financask.model.Transacao
+import br.com.alura.financask.model.Type
+import br.com.alura.financask.model.Transaction
 import kotlinx.android.synthetic.main.form_transacao.view.*
 import java.math.BigDecimal
 import java.util.*
@@ -27,15 +27,15 @@ abstract class FormularioTransacaoDialog(
     protected val campoData = viewCriada.form_transacao_data
     abstract protected val tituloBotaoPositivo: String
 
-    fun chama(tipo: Tipo, delegate: (transacao: Transacao) -> Unit) {
+    fun chama(type: Type, delegate: (transaction: Transaction) -> Unit) {
         configuraCampoData()
-        configuraCampoCategoria(tipo)
-        configuraFormulario(tipo, delegate)
+        configuraCampoCategoria(type)
+        configuraFormulario(type, delegate)
     }
 
-    private fun configuraFormulario(tipo: Tipo, delegate: (transacao: Transacao) -> Unit) {
+    private fun configuraFormulario(type: Type, delegate: (transaction: Transaction) -> Unit) {
 
-        val titulo = tituloPor(tipo)
+        val titulo = tituloPor(type)
 
         AlertDialog.Builder(context)
                 .setTitle(titulo)
@@ -49,7 +49,7 @@ abstract class FormularioTransacaoDialog(
                             val valor = converteCampoValor(valorEmTexto)
                             val data = dataEmTexto.converteParaCalendar()
 
-                            val transacaoCriada = Transacao(tipo = tipo,
+                            val transacaoCriada = Transaction(type = type,
                                     valor = valor,
                                     data = data,
                                     categoria = categoriaEmTexto)
@@ -60,7 +60,7 @@ abstract class FormularioTransacaoDialog(
                 .show()
     }
 
-    abstract protected fun tituloPor(tipo: Tipo): Int
+    abstract protected fun tituloPor(type: Type): Int
 
     private fun converteCampoValor(valorEmTexto: String): BigDecimal {
         return try {
@@ -74,9 +74,9 @@ abstract class FormularioTransacaoDialog(
         }
     }
 
-    private fun configuraCampoCategoria(tipo: Tipo) {
+    private fun configuraCampoCategoria(type: Type) {
 
-        val categorias = categoriasPor(tipo)
+        val categorias = categoriasPor(type)
 
         val adapter = ArrayAdapter
                 .createFromResource(context,
@@ -86,8 +86,8 @@ abstract class FormularioTransacaoDialog(
         campoCategoria.adapter = adapter
     }
 
-    protected fun categoriasPor(tipo: Tipo): Int {
-        if (tipo == Tipo.RECEITA) {
+    protected fun categoriasPor(tipo: Type): Int {
+        if (tipo == Type.RECEITA) {
             return R.array.categorias_de_receita
         }
         return R.array.categorias_de_despesa

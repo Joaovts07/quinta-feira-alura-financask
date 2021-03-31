@@ -6,13 +6,13 @@ import android.view.View
 import br.com.alura.financask.R
 import br.com.alura.financask.extension.formataParaBrasileiro
 import br.com.alura.financask.model.Resumo
-import br.com.alura.financask.model.Transacao
+import br.com.alura.financask.model.Transaction
 import kotlinx.android.synthetic.main.resumo_card.view.*
 import java.math.BigDecimal
 
 class ResumoView(context: Context,
                  private val view: View,
-                 transacoes: List<Transacao>) {
+                 transacoes: List<Transaction>) {
 
     private val resumo: Resumo = Resumo(transacoes)
     private val corReceita = ContextCompat.getColor(context, R.color.receita)

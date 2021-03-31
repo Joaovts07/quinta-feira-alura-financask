@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.ViewGroup
 import br.com.alura.financask.R
 import br.com.alura.financask.extension.formataParaBrasileiro
-import br.com.alura.financask.model.Tipo
-import br.com.alura.financask.model.Transacao
+import br.com.alura.financask.model.Type
+import br.com.alura.financask.model.Transaction
 
 class AlteraTransacaoDialog(
         viewGroup: ViewGroup,
@@ -14,38 +14,38 @@ class AlteraTransacaoDialog(
     override val tituloBotaoPositivo: String
         get() = "Alterar"
 
-    override fun tituloPor(tipo: Tipo): Int {
-        if (tipo == Tipo.RECEITA) {
+    override fun tituloPor(type: Type): Int {
+        if (type == Type.RECEITA) {
             return R.string.altera_receita
         }
         return R.string.altera_despesa
     }
 
-    fun chama(transacao: Transacao, delegate: (transacao: Transacao) -> Unit) {
-        val tipo = transacao.tipo
+    fun chama(transaction: Transaction, delegate: (transaction: Transaction) -> Unit) {
+        val tipo = transaction.type
         super.chama(tipo, delegate)
-        inicializaCampos(transacao)
+        inicializaCampos(transaction)
     }
 
-    private fun inicializaCampos(transacao: Transacao) {
-        val tipo = transacao.tipo
-        inicializaCampoValor(transacao)
-        inicializaCampoData(transacao)
-        inicializaCampoCategoria(tipo, transacao)
+    private fun inicializaCampos(transaction: Transaction) {
+        val tipo = transaction.type
+        inicializaCampoValor(transaction)
+        inicializaCampoData(transaction)
+        inicializaCampoCategoria(tipo, transaction)
     }
 
-    private fun inicializaCampoCategoria(tipo: Tipo, transacao: Transacao) {
-        val categoriasRetornadas = context.resources.getStringArray(categoriasPor(tipo))
-        val posicaoCategoria = categoriasRetornadas.indexOf(transacao.categoria)
+    private fun inicializaCampoCategoria(type: Type, transaction: Transaction) {
+        val categoriasRetornadas = context.resources.getStringArray(categoriasPor(type))
+        val posicaoCategoria = categoriasRetornadas.indexOf(transaction.categoria)
         campoCategoria.setSelection(posicaoCategoria, true)
     }
 
-    private fun inicializaCampoData(transacao: Transacao) {
-        campoData.setText(transacao.data.formataParaBrasileiro())
+    private fun inicializaCampoData(transaction: Transaction) {
+        campoData.setText(transaction.data.formataParaBrasileiro())
     }
 
-    private fun inicializaCampoValor(transacao: Transacao) {
-        campoValor.setText(transacao.valor.toString())
+    private fun inicializaCampoValor(transaction: Transaction) {
+        campoValor.setText(transaction.valor.toString())
     }
 
 }
