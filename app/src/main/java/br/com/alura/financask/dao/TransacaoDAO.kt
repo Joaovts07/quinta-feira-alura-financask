@@ -1,5 +1,6 @@
 package br.com.alura.financask.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import br.com.alura.financask.model.Transaction
 
@@ -12,5 +13,5 @@ interface TransacaoDAO {
     suspend fun update(transaction: Transaction )
 
     @Query("SELECT * FROM `transaction`")
-    suspend fun getAll(): List<Transaction>
+    fun getAll(): LiveData<List<Transaction>>
 }

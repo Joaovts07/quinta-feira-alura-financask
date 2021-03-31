@@ -1,9 +1,10 @@
 package br.com.alura.financask.repository
 
+import androidx.lifecycle.LiveData
 import br.com.alura.financask.model.Transaction
 
 interface TransacaoRepository {
-    suspend fun insertTransacao(name: String, email: String): Long
+    suspend fun insertTransacao(transaction: Transaction): Long
 
     suspend fun updateTransacao(id: Long, name: String, email: String)
 
@@ -11,5 +12,5 @@ interface TransacaoRepository {
 
     suspend fun deleteAllTransacao()
 
-    suspend fun getAllTransacoes(): List<Transaction>
+    fun getAllTransacoes(): LiveData<List<Transaction>>
 }
