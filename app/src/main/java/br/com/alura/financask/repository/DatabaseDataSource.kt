@@ -15,7 +15,7 @@ class DatabaseDataSource(private val transacaoDAO: TransacaoDAO) : TransacaoRepo
     }
 
     override suspend fun deleteTransacao(id: Long) {
-        TODO("Not yet implemented")
+        transacaoDAO.delete(id)
     }
 
     override suspend fun deleteAllTransacao() {

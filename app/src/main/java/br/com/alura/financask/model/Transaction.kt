@@ -8,7 +8,8 @@ import java.util.*
 @Entity(tableName = "transaction")
 class Transaction(
         @PrimaryKey(autoGenerate = true)
-        val id: Long = 0, val valor: BigDecimal,
+        val id: Long = 0,
+        val valor: BigDecimal,
         val categoria: String = "Indefinida",
         val type: Type,
         val data: Calendar = Calendar.getInstance())
