@@ -40,22 +40,21 @@ abstract class FormularioTransacaoDialog(
         AlertDialog.Builder(context)
                 .setTitle(titulo)
                 .setView(viewCriada)
-                .setPositiveButton(tituloBotaoPositivo,
-                        { _, _ ->
-                            val valorEmTexto = campoValor.text.toString()
-                            val dataEmTexto = campoData.text.toString()
-                            val categoriaEmTexto = campoCategoria.selectedItem.toString()
+                .setPositiveButton(tituloBotaoPositivo
+                ) { _, _ ->
+                    val valorEmTexto = campoValor.text.toString()
+                    val dataEmTexto = campoData.text.toString()
+                    val categoriaEmTexto = campoCategoria.selectedItem.toString()
 
-                            val valor = converteCampoValor(valorEmTexto)
-                            val data = dataEmTexto.converteParaCalendar()
+                    val valor = converteCampoValor(valorEmTexto)
+                    val data = dataEmTexto.converteParaCalendar()
+                    val transacaoCriada = Transaction(type = type,
+                            valor = valor,
+                            data = data,
+                            categoria = categoriaEmTexto)
 
-                            val transacaoCriada = Transaction(type = type,
-                                    valor = valor,
-                                    data = data,
-                                    categoria = categoriaEmTexto)
-
-                            delegate(transacaoCriada)
-                        })
+                    delegate(transacaoCriada)
+                }
                 .setNegativeButton("Cancelar", null)
                 .show()
     }
