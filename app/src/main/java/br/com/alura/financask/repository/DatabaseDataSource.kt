@@ -10,8 +10,8 @@ class DatabaseDataSource(private val transacaoDAO: TransacaoDAO) : TransacaoRepo
         return transacaoDAO.insert(transaction)
     }
 
-    override suspend fun updateTransacao(id: Long, name: String, email: String) {
-        TODO("Not yet implemented")
+    override suspend fun updateTransacao(transaction: Transaction) {
+        transacaoDAO.update(transaction)
     }
 
     override suspend fun deleteTransacao(id: Long) {
