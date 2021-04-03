@@ -2,7 +2,7 @@ package br.com.alura.financask.model
 
 import java.math.BigDecimal
 
-class Resumo(private val transacoes: List<Transaction>) {
+class Summary(private val transacoes: List<Transaction>) {
 
     val receita get() = somaPor(Type.RECEITA)
 

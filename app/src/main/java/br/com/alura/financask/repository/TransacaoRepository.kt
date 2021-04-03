@@ -6,7 +6,7 @@ import br.com.alura.financask.model.Transaction
 interface TransacaoRepository {
     suspend fun insertTransacao(transaction: Transaction): Long
 
-    suspend fun updateTransacao(id: Long, name: String, email: String)
+    suspend fun updateTransacao(transaction: Transaction)
 
     suspend fun deleteTransacao(id: Long)
 

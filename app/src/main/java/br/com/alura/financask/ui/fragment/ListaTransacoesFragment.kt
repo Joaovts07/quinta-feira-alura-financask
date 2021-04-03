@@ -1,7 +1,6 @@
 package br.com.alura.financask.ui.fragment
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import br.com.alura.financask.R
 import br.com.alura.financask.database.AppDatabase
 import br.com.alura.financask.model.Transaction
@@ -18,17 +19,15 @@ import br.com.alura.financask.model.Type
 import br.com.alura.financask.repository.DatabaseDataSource
 import br.com.alura.financask.repository.TransacaoRepository
 import br.com.alura.financask.ui.ResumoView
-import br.com.alura.financask.ui.adapter.ListaTransacoesAdapter
 import br.com.alura.financask.ui.dialog.AdicionaTransacaoDialog
 import br.com.alura.financask.ui.dialog.AlteraTransacaoDialog
+import br.com.alura.financask.ui.recyclerview.adapter.ListTransactionsAdapter
 import br.com.alura.financask.ui.viewmodel.TransacaoViewModel
 import kotlinx.android.synthetic.main.fragment_lista_transacoes.*
 
 
 class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
 
-    //private val dao = TransacaoDAO()
-    //private val transacoes = dao.transacoes
     private lateinit var transactions: List<Transaction>
     private val viewDaActivity by lazy {
         activity?.let {
@@ -53,6 +52,7 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
         super.onViewCreated(view, savedInstanceState)
         configuraLista()
         configuraFab()
+        registerForContextMenu(view)
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
@@ -104,49 +104,32 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
 
         viewModel.getAllTransactions.observe(viewLifecycleOwner, Observer {
             it?.let { transactions ->
-                this.transactions = transactions
-                val listTransactionsAdapter = context?.let {
-                    ListaTransacoesAdapter(transactions, it)
-                }
-                with(lista_transacoes_listview) {
-                    adapter = listTransactionsAdapter
-                    setOnItemClickListener { _, _, posicao, _ ->
-                        val transaction = transactions[posicao]
-                        chamaDialogDeAlteracao(transaction, posicao)
-                    }
-                    setOnCreateContextMenuListener { menu, _, _ ->
-                        menu.add(Menu.NONE, 1, Menu.NONE, "Remover")
+                with(rv_list_transactions) {
+                    setHasFixedSize(true)
+                    layoutManager = LinearLayoutManager(
+                            context,
+                            RecyclerView.VERTICAL, false
+                    )
+                    setHasFixedSize(true)
+                    adapter = ListTransactionsAdapter(transactions) { transactionSelected ->
+                        chamaDialogDeAlteracao(transactionSelected)
                     }
                 }
                 val resumoView = context?.let { view?.let { it1 -> ResumoView(it, it1, transactions) } }
                 resumoView?.atualiza()
             }
         })
-        /*val listaTransacoesAdapter = context?.let { ListaTransacoesAdapter(transacoes, it) }
-        with(lista_transacoes_listview) {
-            adapter = listaTransacoesAdapter
-            setOnItemClickListener { _, _, posicao, _ ->
-                val transacao = transacoes[posicao]
-                chamaDialogDeAlteracao(transacao, posicao)
-            }
-            setOnCreateContextMenuListener { menu, _, _ ->
-                menu.add(Menu.NONE, 1, Menu.NONE, "Remover")
-            }
-        }*/
     }
 
-    private fun chamaDialogDeAlteracao(transaction: Transaction, posicao: Int) {
+    private fun chamaDialogDeAlteracao(transaction: Transaction) {
         context?.let {
             AlteraTransacaoDialog(viewGroupDaActivity, it)
                     .chama(transaction) { transacaoAlterada ->
-                        altera(transacaoAlterada, posicao)
+                        altera(transacaoAlterada.changeId(transaction.id))
                     }
         }
     }
-
-    private fun altera(transaction: Transaction, posicao: Int) {
-        //dao.altera(transaction, posicao)
-
+    private fun altera(transaction: Transaction) {
+        viewModel.updateTransaction(transaction)
     }
-
 }

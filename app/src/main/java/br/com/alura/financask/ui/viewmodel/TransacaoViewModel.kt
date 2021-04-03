@@ -31,12 +31,15 @@ class TransacaoViewModel(private val repository: TransacaoRepository) : ViewMode
             }
         } catch (ex: Exception) {
             _messageEventData.value = 0
-            ex.message?.let { Log.e(TAG, it) }
         }
     }
 
     fun remove(idTransaction: Long) = viewModelScope.launch(IO) {
         repository.deleteTransacao(idTransaction)
+    }
+
+    fun updateTransaction(transaction: Transaction) = viewModelScope.launch(IO) {
+        repository.updateTransacao(transaction)
     }
 
     sealed class TransactionState {

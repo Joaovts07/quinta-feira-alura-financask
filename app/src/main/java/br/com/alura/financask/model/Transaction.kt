@@ -12,4 +12,18 @@ class Transaction(
         val valor: BigDecimal,
         val categoria: String = "Indefinida",
         val type: Type,
-        val data: Calendar = Calendar.getInstance())
+        val data: Calendar = Calendar.getInstance()) {
+
+
+    fun changeId(id: Long): Transaction {
+        return Transaction(
+                id,
+                this.valor,
+                this.categoria,
+                this.type,
+                this.data)
+
+    }
+}
+
+

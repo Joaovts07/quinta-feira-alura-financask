@@ -10,8 +10,8 @@
         android:id="@+id/lista_transacoes_resumo"
         layout="@layout/resumo_card" />
 
-    <ListView
-        android:id="@+id/lista_transacoes_listview"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_transactions"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_alignBottom="@id/lista_transacoes_resumo"
@@ -21,7 +21,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lista_transacoes_resumo"
         android:divider="@null"
+        tools:listitem="@layout/transacao_item"
         android:dividerHeight="0dp" />
+
 
 
 
