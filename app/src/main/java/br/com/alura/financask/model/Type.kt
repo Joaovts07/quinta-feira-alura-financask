@@ -1,5 +1,5 @@
 package br.com.alura.financask.model
 
-enum class Tipo {
+enum class Type {
     RECEITA, DESPESA
 }

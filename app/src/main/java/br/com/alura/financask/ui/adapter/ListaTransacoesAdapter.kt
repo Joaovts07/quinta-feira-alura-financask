@@ -9,11 +9,11 @@ import android.widget.BaseAdapter
 import br.com.alura.financask.R
 import br.com.alura.financask.extension.formataParaBrasileiro
 import br.com.alura.financask.extension.limitaEmAte
-import br.com.alura.financask.model.Tipo
-import br.com.alura.financask.model.Transacao
+import br.com.alura.financask.model.Type
+import br.com.alura.financask.model.Transaction
 import kotlinx.android.synthetic.main.transacao_item.view.*
 
-class ListaTransacoesAdapter(private val transacoes: List<Transacao>,
+class ListaTransacoesAdapter(private val transacoes: List<Transaction>,
                              private val context: Context) : BaseAdapter(){
 
     private val limiteDaCategoria = 14
@@ -32,45 +32,45 @@ class ListaTransacoesAdapter(private val transacoes: List<Transacao>,
         return viewCriada
     }
 
-    private fun adicionaData(viewCriada: View, transacao: Transacao) {
-        viewCriada.transacao_data.text = transacao.data
+    private fun adicionaData(viewCriada: View, transaction: Transaction) {
+        viewCriada.transacao_data.text = transaction.data
                 .formataParaBrasileiro()
     }
 
-    private fun adicionaCategoria(viewCriada: View, transacao: Transacao) {
-        viewCriada.transacao_categoria.text = transacao.categoria
+    private fun adicionaCategoria(viewCriada: View, transaction: Transaction) {
+        viewCriada.transacao_categoria.text = transaction.categoria
                 .limitaEmAte(limiteDaCategoria)
     }
 
-    private fun adicionaIcone(transacao: Transacao, viewCriada: View) {
-        val icone = iconePor(transacao.tipo)
+    private fun adicionaIcone(transaction: Transaction, viewCriada: View) {
+        val icone = iconePor(transaction.type)
         viewCriada.transacao_icone
                 .setBackgroundResource(icone)
     }
 
-    private fun iconePor(tipo: Tipo): Int {
-        if (tipo == Tipo.RECEITA) {
+    private fun iconePor(type: Type): Int {
+        if (type == Type.RECEITA) {
             return R.drawable.icone_transacao_item_receita
         }
         return R.drawable.icone_transacao_item_despesa
     }
 
-    private fun adicionaValor(transacao: Transacao, viewCriada: View) {
-        val cor: Int = corPor(transacao.tipo)
+    private fun adicionaValor(transaction: Transaction, viewCriada: View) {
+        val cor: Int = corPor(transaction.type)
         viewCriada.transacao_valor
                 .setTextColor(cor)
-        viewCriada.transacao_valor.text = transacao.valor
+        viewCriada.transacao_valor.text = transaction.valor
                 .formataParaBrasileiro()
     }
 
-    private fun corPor(tipo: Tipo): Int {
-        if (tipo == Tipo.RECEITA) {
+    private fun corPor(type: Type): Int {
+        if (type == Type.RECEITA) {
            return ContextCompat.getColor(context, R.color.receita)
         }
          return ContextCompat.getColor(context, R.color.despesa)
     }
 
-    override fun getItem(posicao: Int): Transacao {
+    override fun getItem(posicao: Int): Transaction {
         return transacoes[posicao]
     }
 

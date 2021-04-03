@@ -1,23 +1,21 @@
 package br.com.alura.financask.dao
 
-import br.com.alura.financask.model.Transacao
+import androidx.lifecycle.LiveData
+import androidx.room.*
+import br.com.alura.financask.model.Transaction
+import java.util.*
 
-class TransacaoDAO {
+@Dao
+interface TransacaoDAO {
+    @Insert
+    suspend fun insert(transaction: Transaction): Long
 
-    val transacoes: List<Transacao> = Companion.transacoes
-    companion object {
-        private val transacoes: MutableList<Transacao> = mutableListOf()
-    }
+    @Update
+    suspend fun update(transaction: Transaction )
 
-    fun adiciona(transacao: Transacao){
-        Companion.transacoes.add(transacao)
-    }
+    @Query("SELECT * FROM `transaction`")
+    fun getAll(): LiveData<List<Transaction>>
 
-    fun altera(transacao: Transacao, posicao: Int){
-        Companion.transacoes[posicao] = transacao
-    }
-
-    fun remove(posicao: Int){
-        Companion.transacoes.removeAt(posicao)
-    }
+    @Query("DELETE FROM `transaction` WHERE id = :id")
+    fun delete(id:Long)
 }
