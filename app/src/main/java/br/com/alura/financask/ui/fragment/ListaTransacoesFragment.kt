@@ -1,12 +1,10 @@
 package br.com.alura.financask.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -26,21 +24,20 @@ import br.com.alura.financask.ui.dialog.AlteraTransacaoDialog
 import br.com.alura.financask.ui.recyclerview.adapter.ListTransactionsAdapter
 import br.com.alura.financask.ui.viewmodel.TransacaoViewModel
 import kotlinx.android.synthetic.main.fragment_lista_transacoes.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
 
     private lateinit var transactions: List<Transaction>
     private val viewDaActivity by lazy {
-        activity?.let {
-            it.window.decorView
-        }
+        activity?.window?.decorView
     }
     private val viewGroupDaActivity by lazy {
         viewDaActivity as ViewGroup
     }
 
-    private val viewModel: TransacaoViewModel by viewModels {
+    /*private val viewModel: TransacaoViewModel by viewModels {
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 val subscriberDao = AppDatabase.getInstance(requireContext()).transactionDAO
@@ -48,7 +45,8 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
                 return TransacaoViewModel(repository) as T
             }
         }
-    }
+    }*/
+    private val viewModel: TransacaoViewModel  by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
