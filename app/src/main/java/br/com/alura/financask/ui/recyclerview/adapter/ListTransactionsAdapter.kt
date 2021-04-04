@@ -9,15 +9,12 @@ import br.com.alura.financask.model.Transaction
 import br.com.alura.financask.model.Type
 import kotlinx.android.synthetic.main.transacao_item.view.*
 
-class ListTransactionsAdapter(private val transactions: List<Transaction>,
-                              private val onItemClickListener: (transaction: Transaction) -> Unit)
-    : RecyclerView.Adapter<ListTransactionsAdapter.TransactionViewHolder>() {
+class ListTransactionsAdapter(
+        private val transactions: List<Transaction>,
+        private val onItemClickListener: (transaction: Transaction) -> Unit,
+        private val onItemClickRemoveContextMenuListener: (transaction: Transaction) -> Unit
 
-    private lateinit var onItemClickRemoveContextMenuListener  : OnItemClickRemoveContextMenuListener
-
-    fun setOnItemClickRemoveContextMenuListener(onItemClickRemoveContextMenuListener: OnItemClickRemoveContextMenuListener) {
-        this.onItemClickRemoveContextMenuListener = onItemClickRemoveContextMenuListener
-    }
+) : RecyclerView.Adapter<ListTransactionsAdapter.TransactionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -46,9 +43,7 @@ class ListTransactionsAdapter(private val transactions: List<Transaction>,
                 MenuInflater(itemView.context).inflate(R.menu.remove_transaction, menu)
                 menu.findItem(R.id.menu_lista_produtos_remove)
                         .setOnMenuItemClickListener { item: MenuItem? ->
-                            val posicaoProduto = adapterPosition
-                            onItemClickRemoveContextMenuListener
-                                    .onItemClick(posicaoProduto, transaction)
+                            onItemClickRemoveContextMenuListener(transaction)
                             true
                         }
             }
@@ -86,7 +81,4 @@ class ListTransactionsAdapter(private val transactions: List<Transaction>,
         }
     }
 
-    interface OnItemClickRemoveContextMenuListener {
-        fun onItemClick(posicao: Int, produtoRemovido: Transaction)
-    }
 }

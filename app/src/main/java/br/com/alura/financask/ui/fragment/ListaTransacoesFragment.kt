@@ -6,18 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.alura.financask.R
-import br.com.alura.financask.database.AppDatabase
 import br.com.alura.financask.model.Transaction
 import br.com.alura.financask.model.Type
-import br.com.alura.financask.repository.DatabaseDataSource
-import br.com.alura.financask.repository.TransacaoRepository
 import br.com.alura.financask.ui.ResumoView
 import br.com.alura.financask.ui.dialog.AdicionaTransacaoDialog
 import br.com.alura.financask.ui.dialog.AlteraTransacaoDialog
@@ -46,7 +40,7 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
             }
         }
     }*/
-    private val viewModel: TransacaoViewModel  by viewModel()
+    private val viewModel: TransacaoViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -111,19 +105,16 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
                             RecyclerView.VERTICAL, false
                     )
                     setHasFixedSize(true)
-
-                    val listTransactionsAdapter = ListTransactionsAdapter(transactions) { transactionSelected ->
-                        chamaDialogDeAlteracao(transactionSelected)
+                    adapter = ListTransactionsAdapter(
+                            transactions,
+                            this@ListaTransacoesFragment::chamaDialogDeAlteracao) { transactionDelete ->
+                        remove(transactionDelete.id)
                     }
-                    adapter = listTransactionsAdapter
-                    listTransactionsAdapter.setOnItemClickRemoveContextMenuListener(object : ListTransactionsAdapter.OnItemClickRemoveContextMenuListener {
-                        override fun onItemClick(posicao: Int, transaction: Transaction) {
-                            remove(transaction.id)
-                        }
-
-                    })
                 }
-                val resumoView = context?.let { view?.let { it1 -> ResumoView(it, it1, transactions) } }
+
+                val resumoView = context?.let {
+                    view?.let { it1 -> ResumoView(it, it1, transactions) }
+                }
                 resumoView?.atualiza()
             }
         })
