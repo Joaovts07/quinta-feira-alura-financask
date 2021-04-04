@@ -1,10 +1,12 @@
 package br.com.alura.financask.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -111,9 +113,17 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
                             RecyclerView.VERTICAL, false
                     )
                     setHasFixedSize(true)
-                    adapter = ListTransactionsAdapter(transactions) { transactionSelected ->
+
+                    val listTransactionsAdapter = ListTransactionsAdapter(transactions) { transactionSelected ->
                         chamaDialogDeAlteracao(transactionSelected)
                     }
+                    adapter = listTransactionsAdapter
+                    listTransactionsAdapter.setOnItemClickRemoveContextMenuListener(object : ListTransactionsAdapter.OnItemClickRemoveContextMenuListener {
+                        override fun onItemClick(posicao: Int, transaction: Transaction) {
+                            remove(transaction.id)
+                        }
+
+                    })
                 }
                 val resumoView = context?.let { view?.let { it1 -> ResumoView(it, it1, transactions) } }
                 resumoView?.atualiza()
@@ -129,6 +139,7 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
                     }
         }
     }
+
     private fun altera(transaction: Transaction) {
         viewModel.updateTransaction(transaction)
     }
