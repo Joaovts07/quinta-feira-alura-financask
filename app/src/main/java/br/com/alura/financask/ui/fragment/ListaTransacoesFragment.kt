@@ -31,15 +31,6 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
         viewDaActivity as ViewGroup
     }
 
-    /*private val viewModel: TransacaoViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                val subscriberDao = AppDatabase.getInstance(requireContext()).transactionDAO
-                val repository: TransacaoRepository = DatabaseDataSource(subscriberDao)
-                return TransacaoViewModel(repository) as T
-            }
-        }
-    }*/
     private val viewModel: TransacaoViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,11 +98,10 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
                     setHasFixedSize(true)
                     adapter = ListTransactionsAdapter(
                             transactions,
-                            this@ListaTransacoesFragment::chamaDialogDeAlteracao) { transactionDelete ->
-                        remove(transactionDelete.id)
+                            this@ListaTransacoesFragment::chamaDialogDeAlteracao) {
+                        remove(it.id)
                     }
                 }
-
                 val resumoView = context?.let {
                     view?.let { it1 -> ResumoView(it, it1, transactions) }
                 }
