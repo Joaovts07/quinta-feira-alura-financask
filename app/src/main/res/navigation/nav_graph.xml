@@ -9,5 +9,30 @@
         android:id="@+id/listaTransacoesFragment"
         android:name="br.com.alura.financask.ui.fragment.ListaTransacoesFragment"
         android:label="fragment_lista_transacoes"
-        tools:layout="@layout/fragment_lista_transacoes" />
+        tools:layout="@layout/fragment_lista_transacoes" >
+        <action
+            android:id="@+id/action_listaTransacoesFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="br.com.alura.financask.ui.fragment.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/login">
+        <action
+            android:id="@+id/action_loginFragment_to_listaTransacoesFragment"
+            app:destination="@id/listaTransacoesFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_cadastroFragment"
+            app:destination="@id/cadastroFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cadastroFragment"
+        android:name="br.com.alura.financask.ui.fragment.CadastroFragment"
+        tools:layout="@layout/cadastro_usuario"
+        android:label="CadastroFragment" >
+        <action
+            android:id="@+id/action_cadastroFragment_to_listaTransacoesFragment"
+            app:destination="@id/listaTransacoesFragment" />
+    </fragment>
 </navigation>
