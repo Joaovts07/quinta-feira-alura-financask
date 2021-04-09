@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/financas-kotlin-parte3-aula-7.iml" filepath="$PROJECT_DIR$/.idea/financas-kotlin-parte3-aula-7.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/financas-kotlin-parte3-aula-7.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/financas-kotlin-parte3-aula-7.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Quinta-feira-financask.iml" filepath="$PROJECT_DIR$/.idea/modules/Quinta-feira-financask.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Quinta-feira-financask.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Quinta-feira-financask.app.iml" />
     </modules>
   </component>
 </project>
