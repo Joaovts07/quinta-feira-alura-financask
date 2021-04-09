@@ -25,7 +25,26 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         return false
     }
 
-    fun register(user: User) : LiveData<Resource<Boolean>> {
+    fun authenticate(usuario: User): LiveData<Resource<Boolean>> {
+        val liveData = MutableLiveData<Resource<Boolean>>()
+        try {
+            firebaseAuth.signInWithEmailAndPassword(usuario.email, usuario.password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            liveData.value = Resource(true)
+                        } else {
+                            Log.e(TAG, "autentica: ", task.exception)
+                            val mensagemErro: String = returnRegisterError(task.exception)
+                            liveData.value = Resource(false, mensagemErro)
+                        }
+                    }
+        } catch (e: IllegalArgumentException) {
+            liveData.value = Resource(false, "E-mail ou senha não pode ser vazio")
+        }
+        return liveData
+    }
+
+    fun register(user: User): LiveData<Resource<Boolean>> {
         val liveData = MutableLiveData<Resource<Boolean>>()
 
         try {
@@ -48,7 +67,7 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         return liveData
     }
 
-    private fun returnRegisterError(exception: Exception): String = when (exception) {
+    private fun returnRegisterError(exception: java.lang.Exception?): String = when (exception) {
         is FirebaseAuthInvalidUserException,
         is FirebaseAuthInvalidCredentialsException -> "E-mail ou senha incorretos"
         else -> "Erro desconhecido"

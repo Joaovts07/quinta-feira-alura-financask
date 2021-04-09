@@ -9,6 +9,10 @@ import br.com.alura.financask.repository.Resource
 class LoginViewModel(private val firebaseAuthRepository: FirebaseAuthRepository
 ) : ViewModel() {
 
+    fun authenticate(usuario: User): LiveData<Resource<Boolean>> {
+        return firebaseAuthRepository.authenticate(usuario)
+    }
+
     fun isLoged(): Boolean = firebaseAuthRepository.isLoged()
 
     fun desloga() {
