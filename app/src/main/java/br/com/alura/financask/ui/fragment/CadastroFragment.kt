@@ -1,22 +1,26 @@
 package br.com.alura.financask.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import br.com.alura.financask.R
-import com.google.firebase.auth.FirebaseAuth
+import br.com.alura.financask.model.User
+import br.com.alura.financask.ui.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.cadastro_usuario.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class CadastroFragment : Fragment() {
 
     private val controlador by lazy {
         findNavController()
     }
+
+    private val loginViewModel: LoginViewModel by viewModel()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -49,19 +53,17 @@ class CadastroFragment : Fragment() {
         val email = cadastro_usuario_email_usuario.editText?.text.toString().trim()
         val password = cadastro_usuario_senha.editText?.text.toString().trim()
 
-        val instance = FirebaseAuth.getInstance()
-        instance.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                // Sign in success, update UI with the signed-in user's information
-                controlador.navigate(R.id.action_cadastroFragment_to_listaTransacoesFragment)
-
-            } else {
-                // If sign in fails, display a message to the user.
-                Log.w("TAG", "createUserWithEmail:failure", task.exception)
-                Toast.makeText(context, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
-
+        loginViewModel.registerUser(User(email, password)).observe(viewLifecycleOwner, Observer {
+            it?.let { recurso ->
+                if (recurso.dado) {
+                    Toast.makeText(context, "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show()
+                    controlador.popBackStack()
+                } else {
+                    val mensagemErro = recurso.erro ?: "Ocorreu uma falha no cadastro"
+                    Toast.makeText(context, mensagemErro, Toast.LENGTH_SHORT).show()
+                }
             }
-        }
+        })
     }
+
 }

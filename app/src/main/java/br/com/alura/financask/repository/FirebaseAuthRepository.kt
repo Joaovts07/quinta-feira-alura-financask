@@ -1,6 +1,8 @@
 package br.com.alura.financask.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import br.com.alura.financask.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -23,22 +25,27 @@ class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) {
         return false
     }
 
-    suspend fun register(user: User) {
+    fun register(user: User) : LiveData<Resource<Boolean>> {
+        val liveData = MutableLiveData<Resource<Boolean>>()
+
         try {
             val task =
                     firebaseAuth.createUserWithEmailAndPassword(user.email, user.password)
             task.addOnSuccessListener {
                 Log.i(TAG, "cadastra: cadastro sucedido")
-                //liveData.value = Resource(true)
+                liveData.value = Resource(true)
+
             }
             task.addOnFailureListener { exception ->
                 Log.e(TAG, "cadastra: cadastro falhou", exception)
                 val error: String = returnRegisterError(exception)
-                //liveData.value = Resource(false, mensagemErro)
+                liveData.value = Resource(false, error)
             }
         } catch (exception: Exception) {
+            liveData.value = Resource(false, "E-mail ou senha não ser vazio")
 
         }
+        return liveData
     }
 
     private fun returnRegisterError(exception: Exception): String = when (exception) {
