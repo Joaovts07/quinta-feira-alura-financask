@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import br.com.alura.financask.R
@@ -16,6 +17,7 @@ import br.com.alura.financask.ui.ResumoView
 import br.com.alura.financask.ui.dialog.AdicionaTransacaoDialog
 import br.com.alura.financask.ui.dialog.AlteraTransacaoDialog
 import br.com.alura.financask.ui.recyclerview.adapter.ListTransactionsAdapter
+import br.com.alura.financask.ui.viewmodel.LoginViewModel
 import br.com.alura.financask.ui.viewmodel.TransacaoViewModel
 import kotlinx.android.synthetic.main.fragment_lista_transacoes.*
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -33,11 +35,24 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
 
     private val viewModel: TransacaoViewModel by viewModel()
 
+    private val loginViewModel: LoginViewModel by viewModel()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        isLoged()
         configuraLista()
         configuraFab()
         registerForContextMenu(view)
+    }
+
+    private fun isLoged() {
+        if (loginViewModel.naoEstaLogado()) {
+            gotToLogin()
+        }
+    }
+
+    private fun gotToLogin() {
+        findNavController().navigate(R.id.action_listaTransacoesFragment_to_loginFragment)
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {

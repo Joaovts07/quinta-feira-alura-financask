@@ -48,6 +48,7 @@ class CadastroFragment : Fragment() {
     private fun registerUser() {
         val email = cadastro_usuario_email_usuario.editText?.text.toString().trim()
         val password = cadastro_usuario_senha.editText?.text.toString().trim()
+
         val instance = FirebaseAuth.getInstance()
         instance.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
