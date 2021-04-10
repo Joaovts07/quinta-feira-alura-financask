@@ -1,9 +1,7 @@
 package br.com.alura.financask.ui.fragment
 
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -39,6 +37,7 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         isLoged()
         configuraLista()
         configuraFab()
@@ -66,8 +65,20 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_principal, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_principal_deslogar) {
+            loginViewModel.desloga()
+            gotToLogin()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun remove(posicaoDaTransacao: Long) {
-        //dao.remove(posicaoDaTransacao)
         viewModel.remove(posicaoDaTransacao)
 
     }
