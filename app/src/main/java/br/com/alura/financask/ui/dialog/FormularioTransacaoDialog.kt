@@ -8,14 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.view.ContextThemeWrapper
 import br.com.alura.financask.R
 import br.com.alura.financask.extension.converteParaCalendar
 import br.com.alura.financask.extension.formataParaBrasileiro
-import br.com.alura.financask.model.Type
 import br.com.alura.financask.model.Transaction
+import br.com.alura.financask.model.Type
 import kotlinx.android.synthetic.main.form_transacao.view.*
 import java.math.BigDecimal
 import java.util.*
+
 
 abstract class FormularioTransacaoDialog(
         private val context: Context,
@@ -106,8 +108,7 @@ abstract class FormularioTransacaoDialog(
                         val dataSelecionada = Calendar.getInstance()
                         dataSelecionada.set(ano, mes, dia)
                         campoData.setText(dataSelecionada.formataParaBrasileiro())
-                    }
-                    , ano, mes, dia)
+                    }, ano, mes, dia)
                     .show()
         }
     }
