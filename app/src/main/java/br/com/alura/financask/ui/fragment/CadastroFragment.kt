@@ -39,8 +39,42 @@ class CadastroFragment : Fragment() {
     private fun setButtonRegister() {
         cadastro_usuario_botao_cadastrar.setOnClickListener {
             limpaTodosCampos()
-            registerUser()
+
+            val email = cadastro_usuario_email_usuario.editText?.text.toString().trim()
+            val senha = cadastro_usuario_senha.editText?.text.toString()
+            val confirmaSenha = cadastro_usuario_confirma_senha.editText?.text.toString()
+
+            val valido = validaCampos(email, senha, confirmaSenha)
+
+            if (valido) {
+                registerUser(email, senha)
+            }
+
         }
+    }
+
+    private fun validaCampos(
+            email: String,
+            senha: String,
+            confirmaSenha: String
+    ): Boolean {
+        var valido = true
+
+        if (email.isBlank()) {
+            cadastro_usuario_email_usuario.error = "E-mail é necessário"
+            valido = false
+        }
+
+        else if (senha.isBlank()) {
+            cadastro_usuario_senha.error = "Senha é necessária"
+            valido = false
+        }
+
+        else if (senha != confirmaSenha) {
+            cadastro_usuario_confirma_senha.error = "Senhas diferentes"
+            valido = false
+        }
+        return valido
     }
 
     private fun limpaTodosCampos() {
@@ -49,9 +83,7 @@ class CadastroFragment : Fragment() {
         cadastro_usuario_confirma_senha.error = null
     }
 
-    private fun registerUser() {
-        val email = cadastro_usuario_email_usuario.editText?.text.toString().trim()
-        val password = cadastro_usuario_senha.editText?.text.toString().trim()
+    private fun registerUser(email: String, password: String) {
 
         loginViewModel.registerUser(User(email, password)).observe(viewLifecycleOwner, Observer {
             it?.let { recurso ->
