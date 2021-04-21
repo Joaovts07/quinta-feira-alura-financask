@@ -3,6 +3,7 @@ package br.com.alura.financask.ui.fragment
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -53,8 +54,21 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
         tabLayout.addTab(tabLayout.newTab().setText("MAR"))
         tabLayout.addTab(tabLayout.newTab().setText("ABR"))
         tabLayout.addTab(tabLayout.newTab().setText("MAIO"))
-
-
+        tabLayout.addTab(tabLayout.newTab().setText("JUN"))
+        tabLayout.addTab(tabLayout.newTab().setText("JUL"))
+        tabLayout.addTab(tabLayout.newTab().setText("AGT"))
+        tabLayout.addTab(tabLayout.newTab().setText("SET"))
+        tabLayout.addTab(tabLayout.newTab().setText("OUT"))
+        tabLayout.addTab(tabLayout.newTab().setText("NOV"))
+        tabLayout.addTab(tabLayout.newTab().setText("DEZ"))
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                Toast.makeText(context,  tab.text.toString (), Toast.LENGTH_SHORT).show()
+                viewModel.getTransactionsByFilter("")
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
     }
 
     private fun isLoged() {
@@ -126,7 +140,7 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
 
     private fun configuraLista() {
 
-        viewModel.getAllTransactions.observe(viewLifecycleOwner, Observer {
+        viewModel.transactionsList.observe(viewLifecycleOwner, Observer {
             it?.let { transactions ->
                 with(rv_list_transactions) {
                     setHasFixedSize(true)
@@ -145,8 +159,11 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
                     view?.let { it1 -> ResumoView(it, it1, transactions) }
                 }
                 resumoView?.atualiza()
+
             }
         })
+        viewModel.getTransactions()
+
     }
 
     private fun chamaDialogDeAlteracao(transaction: Transaction) {
