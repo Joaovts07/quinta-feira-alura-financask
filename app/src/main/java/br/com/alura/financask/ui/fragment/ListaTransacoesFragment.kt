@@ -63,8 +63,8 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
         tabLayout.addTab(tabLayout.newTab().setText("DEZ"))
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                Toast.makeText(context,  tab.text.toString (), Toast.LENGTH_SHORT).show()
-                viewModel.getTransactionsByFilter("")
+
+                viewModel.getTransactionsByFilter((tab.position + 1).toString())
             }
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}

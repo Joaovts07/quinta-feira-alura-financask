@@ -22,8 +22,12 @@ class DatabaseDataSource(private val transacaoDAO: TransacaoDAO) : TransacaoRepo
         TODO("Not yet implemented")
     }
 
-    override fun getAllTransacoes(): LiveData<List<Transaction>> {
+    override suspend fun getAllTransacoes(): List<Transaction> {
         return  transacaoDAO.getAll()
+    }
+
+    override suspend fun getAllTransacoesByFilter(startDate:Long,endDate: Long): List<Transaction> {
+        return transacaoDAO.getTransactions(startDate,endDate)
     }
 
 

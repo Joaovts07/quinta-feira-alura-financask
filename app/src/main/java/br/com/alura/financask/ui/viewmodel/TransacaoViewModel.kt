@@ -5,14 +5,49 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.alura.financask.extension.getLastDayOfMonth
+import br.com.alura.financask.extension.getTimeStampforDateString
 import br.com.alura.financask.model.Transaction
 import br.com.alura.financask.repository.TransacaoRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.*
 
 class TransacaoViewModel(private val repository: TransacaoRepository) : ViewModel() {
 
-    val getAllTransactions: LiveData<List<Transaction>> = repository.getAllTransacoes()
+    val transactionsList = MutableLiveData<List<Transaction>>()
+
+    fun getTransactions() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val transactions = withContext(Dispatchers.Default) {
+                repository.getAllTransacoes()
+            }
+            transactionsList.value = transactions
+        }
+    }
+
+    fun getTransactionsByFilter(month: String) {
+
+
+        val myCalendar = Calendar.getInstance()
+        val startDate = myCalendar.getTimeStampforDateString("01/$month/2021")
+        val lastDay = myCalendar.getLastDayOfMonth(month)
+        val endDate = myCalendar.getTimeStampforDateString("$lastDay/$month/2021")
+
+
+        //val endDate = ""
+
+        Log.e("tempo", "start:$startDate ultimo: $endDate")
+        CoroutineScope(Dispatchers.Main).launch {
+            val transactions = withContext(Dispatchers.Default) {
+                repository.getAllTransacoesByFilter(startDate, endDate)
+            }
+            transactionsList.value = transactions
+        }
+    }
 
     private val _messageEventData = MutableLiveData<Int>()
     val messageEventData: LiveData<Int>
