@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import br.com.alura.financask.R
 import br.com.alura.financask.model.Transaction
 import br.com.alura.financask.model.Type
@@ -17,6 +18,7 @@ import br.com.alura.financask.ui.dialog.AlteraTransacaoDialog
 import br.com.alura.financask.ui.recyclerview.adapter.ListTransactionsAdapter
 import br.com.alura.financask.ui.viewmodel.LoginViewModel
 import br.com.alura.financask.ui.viewmodel.TransacaoViewModel
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_lista_transacoes.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -35,6 +37,8 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
 
     private val loginViewModel: LoginViewModel by viewModel()
 
+    lateinit var tabLayout: TabLayout
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
@@ -42,6 +46,15 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
         configuraLista()
         configuraFab()
         registerForContextMenu(view)
+        //title = "KotlinApp"
+        tabLayout = view.findViewById(R.id.tabLayout)
+        tabLayout.addTab(tabLayout.newTab().setText("JAN"))
+        tabLayout.addTab(tabLayout.newTab().setText("FEV"))
+        tabLayout.addTab(tabLayout.newTab().setText("MAR"))
+        tabLayout.addTab(tabLayout.newTab().setText("ABR"))
+        tabLayout.addTab(tabLayout.newTab().setText("MAIO"))
+
+
     }
 
     private fun isLoged() {
