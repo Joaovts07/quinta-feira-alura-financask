@@ -1,6 +1,5 @@
 package br.com.alura.financask.repository
 
-import androidx.lifecycle.LiveData
 import br.com.alura.financask.dao.TransacaoDAO
 import br.com.alura.financask.model.Transaction
 
@@ -23,12 +22,11 @@ class DatabaseDataSource(private val transacaoDAO: TransacaoDAO) : TransacaoRepo
     }
 
     override suspend fun getAllTransacoes(): List<Transaction> {
-        return  transacaoDAO.getAll()
+        return transacaoDAO.getAll()
     }
 
-    override suspend fun getAllTransacoesByFilter(startDate:Long,endDate: Long): List<Transaction> {
-        return transacaoDAO.getTransactions(startDate,endDate)
+    override suspend fun getAllTransacoesByFilter(startDate: Long, endDate: Long): List<Transaction> {
+        return transacaoDAO.getTransactions(startDate, endDate)
     }
-
 
 }

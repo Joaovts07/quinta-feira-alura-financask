@@ -1,7 +1,5 @@
 package br.com.alura.financask.ui.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -31,16 +29,11 @@ class TransacaoViewModel(private val repository: TransacaoRepository) : ViewMode
 
     fun getTransactionsByFilter(month: String) {
 
-
         val myCalendar = Calendar.getInstance()
         val startDate = myCalendar.getTimeStampforDateString("01/$month/2021")
         val lastDay = myCalendar.getLastDayOfMonth(month)
         val endDate = myCalendar.getTimeStampforDateString("$lastDay/$month/2021")
 
-
-        //val endDate = ""
-
-        Log.e("tempo", "start:$startDate ultimo: $endDate")
         CoroutineScope(Dispatchers.Main).launch {
             val transactions = withContext(Dispatchers.Default) {
                 repository.getAllTransacoesByFilter(startDate, endDate)
@@ -50,12 +43,8 @@ class TransacaoViewModel(private val repository: TransacaoRepository) : ViewMode
     }
 
     private val _messageEventData = MutableLiveData<Int>()
-    val messageEventData: LiveData<Int>
-        get() = _messageEventData
 
     private val _transactionStateEventData = MutableLiveData<TransactionState>()
-    val transactionStateEventData: LiveData<TransactionState>
-        get() = _transactionStateEventData
 
     fun addTransaction(transaction: Transaction) = viewModelScope.launch {
         try {
