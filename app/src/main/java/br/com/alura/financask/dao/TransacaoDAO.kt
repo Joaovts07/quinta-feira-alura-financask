@@ -14,8 +14,10 @@ interface TransacaoDAO {
     suspend fun update(transaction: Transaction )
 
     @Query("SELECT * FROM `transaction`")
-    fun getAll(): LiveData<List<Transaction>>
+    suspend fun getAll(): List<Transaction>
 
     @Query("DELETE FROM `transaction` WHERE id = :id")
     fun delete(id:Long)
+    @Query("SELECT * FROM `transaction` WHERE data BETWEEN :startDate AND :endDate")
+    fun getTransactions(startDate: Long,endDate: Long): List<Transaction>
 }

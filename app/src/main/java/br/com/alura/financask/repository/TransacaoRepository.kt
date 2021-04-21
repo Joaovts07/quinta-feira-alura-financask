@@ -1,6 +1,5 @@
 package br.com.alura.financask.repository
 
-import androidx.lifecycle.LiveData
 import br.com.alura.financask.model.Transaction
 
 interface TransacaoRepository {
@@ -12,5 +11,8 @@ interface TransacaoRepository {
 
     suspend fun deleteAllTransacao()
 
-    fun getAllTransacoes(): LiveData<List<Transaction>>
+    suspend fun getAllTransacoes(): List<Transaction>
+
+    suspend fun getAllTransacoesByFilter(startDate: Long, endDate: Long): List<Transaction>
+
 }
