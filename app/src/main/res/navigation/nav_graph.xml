@@ -35,4 +35,9 @@
             android:id="@+id/action_cadastroFragment_to_listaTransacoesFragment"
             app:destination="@id/listaTransacoesFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/chartFragment"
+        tools:layout="@layout/pie_chart"
+        android:name="br.com.alura.financask.ui.fragment.ChartFragment"
+        android:label="ChartFragment" />
 </navigation>

@@ -75,10 +75,17 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:6.4.0'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
+
+    //matherial
+    implementation 'com.google.android.material:material:1.0.0'
+
     implementation 'com.android.support:multidex:1.0.3'
 
 
     implementation 'com.github.clans:fab:1.6.4'
+
+    //anychart
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
 
     testImplementation 'junit:junit:4.13.2'
 
