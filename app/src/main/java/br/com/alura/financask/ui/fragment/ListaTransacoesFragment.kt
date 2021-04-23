@@ -38,6 +38,8 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
 
     private val loginViewModel: LoginViewModel by viewModel()
 
+    lateinit var listTransactionsAdapter : ListTransactionsAdapter
+
     lateinit var tabLayout: TabLayout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,7 +109,7 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
 
     private fun remove(posicaoDaTransacao: Long) {
         viewModel.remove(posicaoDaTransacao)
-
+        configuraLista()
     }
 
     private fun configuraFab() {
@@ -142,6 +144,11 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
 
         viewModel.transactionsList.observe(viewLifecycleOwner, Observer {
             it?.let { transactions ->
+                listTransactionsAdapter = ListTransactionsAdapter(
+                        transactions,
+                        this@ListaTransacoesFragment::chamaDialogDeAlteracao) {
+                    remove(it.id)
+                }
                 with(rv_list_transactions) {
                     setHasFixedSize(true)
                     layoutManager = LinearLayoutManager(
@@ -149,11 +156,7 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
                             RecyclerView.VERTICAL, false
                     )
                     setHasFixedSize(true)
-                    adapter = ListTransactionsAdapter(
-                            transactions,
-                            this@ListaTransacoesFragment::chamaDialogDeAlteracao) {
-                        remove(it.id)
-                    }
+                    adapter = listTransactionsAdapter
                 }
                 val resumoView = context?.let {
                     view?.let { it1 -> ResumoView(it, it1, transactions) }
