@@ -3,13 +3,9 @@ package br.com.alura.financask.ui.fragment
 import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
 import br.com.alura.financask.R
 import br.com.alura.financask.model.Transaction
 import br.com.alura.financask.model.Type
@@ -24,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_lista_transacoes.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
+class ListaTransacoesFragment : BaseFragment() {
 
     private lateinit var transactions: List<Transaction>
     private val viewDaActivity by lazy {
@@ -38,14 +34,22 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
 
     private val loginViewModel: LoginViewModel by viewModel()
 
-    lateinit var listTransactionsAdapter : ListTransactionsAdapter
+    lateinit var listTransactionsAdapter: ListTransactionsAdapter
 
     lateinit var tabLayout: TabLayout
+
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?)
+            : View? {
+        return inflater.inflate(
+                R.layout.fragment_lista_transacoes,
+                container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        isLoged()
         configuraLista()
         configuraFab()
         registerForContextMenu(view)
@@ -68,19 +72,10 @@ class ListaTransacoesFragment : Fragment(R.layout.fragment_lista_transacoes) {
 
                 viewModel.getTransactionsByFilter((tab.position + 1).toString())
             }
+
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
-    }
-
-    private fun isLoged() {
-        if (loginViewModel.naoEstaLogado()) {
-            gotToLogin()
-        }
-    }
-
-    private fun gotToLogin() {
-        findNavController().navigate(R.id.action_listaTransacoesFragment_to_loginFragment)
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
