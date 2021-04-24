@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import br.com.alura.financask.R
 import com.anychart.AnyChart
 import com.anychart.AnyChartView
@@ -12,7 +11,7 @@ import com.anychart.chart.common.dataentry.DataEntry
 import com.anychart.chart.common.dataentry.ValueDataEntry
 
 
-class ChartFragment: Fragment() {
+class ChartFragment : BaseFragment() {
 
     override fun onCreateView(
             inflater: LayoutInflater,
