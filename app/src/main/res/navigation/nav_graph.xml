@@ -40,4 +40,5 @@
         tools:layout="@layout/pie_chart"
         android:name="br.com.alura.financask.ui.fragment.ChartFragment"
         android:label="ChartFragment" />
+    <action android:id="@+id/action_global_goTo_login" app:destination="@id/loginFragment" />
 </navigation>

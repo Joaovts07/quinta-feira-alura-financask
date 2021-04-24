@@ -24,6 +24,6 @@ open class BaseFragment : Fragment() {
     }
 
     protected fun gotToLogin() {
-        findNavController().navigate(R.id.action_listaTransacoesFragment_to_loginFragment)
+        findNavController().navigate(R.id.action_global_goTo_login)
     }
 }
